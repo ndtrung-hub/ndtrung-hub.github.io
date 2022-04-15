@@ -73,11 +73,6 @@
     </div>
 
     <script type="module">
-      import { Octokit } from "https://cdn.skypack.dev/@octokit/core";
-
-      const octokit = new Octokit({
-        auth: ``,
-      });
       const oSkillSet = {
         "c/c++": 1,
         "html/css": 1,
@@ -98,21 +93,23 @@
       const eSkillEl = document.getElementById("skills");
       const eConnect = document.getElementById("connect");
 
-      async function fFetchRepos() {
-        const data = await octokit.request("GET /users/{username}/repos", {
-          username: "ndtrung-hub",
-        });
-
-        let result = data.data.sort((a, b) => {
-          return 0.5 - Math.random();
-        });
-        let aDataHtml = [];
-
-        for (let i = 0; i < 5 && i < result.length; i++)
-          aDataHtml.push(
-            `<div class="column badge content " id="repoid-${
-              result[i].name
-            }"  id="repo">
+      fetch("https://api.github.com/users/ndtrung-hub/repos", {
+        method: "GET",
+        header: {
+          authorization: "token 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",
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          let result = data.sort((a, b) => {
+            return 0.5 - Math.random();
+          });
+          let aDataHtml = [];
+          for (let i = 0; i < 5 && i < result.length; i++)
+            aDataHtml.push(
+              `<div class="column badge content " id="repoid-${
+                result[i].name
+              }"  id="repo">
                     <h3 class="badge href" onclick="window.open('${
                       result[i].html_url
                     }')">
@@ -130,14 +127,15 @@
                       }
                     </div>
                   </div>`
-          );
+            );
 
-        eRepoEl.innerHTML =
-          result.length < 5
-            ? aDataHtml.join("")
-            : aDataHtml.join("") +
-              `<div class="container" id="more-repos" ><h4 class="badge href"  onclick="window.open('https://github.com/ndtrung-hub')">more repos</h4></div>`;
-      }
+          eRepoEl.innerHTML =
+            result.length < 5
+              ? aDataHtml.join("")
+              : aDataHtml.join("") +
+                `<div class="container" id="more-repos" ><h4 class="badge href"  onclick="window.open('https://github.com/ndtrung-hub')">more repos</h4></div>`;
+        })
+        .catch((error) => console.log(error));
 
       function fFetchSkills(object) {
         const keys = Object.keys(object);
@@ -183,7 +181,6 @@
       //function calls
       fFetchSkills(oSkillSet);
       fFetchConnect(oConnect);
-      fFetchRepos();
     </script>
   </body>
 </html>
