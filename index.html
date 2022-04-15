@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+  <header>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Homepage - ndtrung-hub</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+  </header>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root">
+      <div class="container row outer" id="navbar">
+        <div class="container row" id="page-name">
+          <h1 class="badge href" id="name-badge" onclick="location.href='';">
+            ndtrung-hub
+          </h1>
+        </div>
+        <div class="container row" id="page-nav">
+          <h2
+            class="badge href"
+            id="project-badge"
+            onclick="location.href='#short-repos';"
+          >
+            repos
+          </h2>
+          <h2
+            class="badge href"
+            id="about-badge"
+            onclick="location.href='#profile-container';"
+          >
+            about
+          </h2>
+          <h2
+            class="badge href"
+            id="connect-badge"
+            onclick="location.href='#connect-container';"
+          >
+            connect
+          </h2>
+        </div>
+      </div>
+      <div class="container row outer" id="profile-container">
+        <img
+          class="circle"
+          id="profile-picture"
+          src="./resources/profile.JPG"
+          alt="Profile picture"
+        />
+        <div class="container column" id="welcome-container">
+          <h1 id="profile-name">Nguyen Duc Trung</h1>
+          <p id="welcome-section">
+            HCMC, VN <br />
+            Amateur sessional cajonist <br />
+            BME undergraduate enthusiastic in CS-EE projects <br />
+          </p>
+        </div>
+      </div>
+      <div class="container row outer" id="main">
+        <div class="container column outer" id="skills-container">
+          <h2 class="container" id="skills-tag">skills</h2>
+          <div class="container column" id="skills"></div>
+        </div>
+        <div class="container column outer" id="short-repos-container">
+          <h2 class="container" id="short-repos-tag">repos</h2>
+          <div class="container column" id="short-repos"></div>
+        </div>
+        <div class="container column outer" id="connect-container">
+          <h2 class="container" id="connect-tag">find me at</h2>
+          <div class="container row" id="connect"></div>
+        </div>
+      </div>
+    </div>
+
+    <script type="module">
+      import { Octokit } from "https://cdn.skypack.dev/@octokit/core";
+
+      const octokit = new Octokit({
+        auth: `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`,
+      });
+      const oSkillSet = {
+        "c/c++": 1,
+        "html/css": 1,
+        javascript: 1,
+        reactjs: 1,
+        "ms tools": 2,
+        english: 3,
+        max: 5,
+      };
+
+      const oConnect = {
+        facebook: "https://www.facebook.com/ndtrung103",
+        linkedin: "https://www.linkedin.com/in/ndtrung103",
+        github: "https://github.com/ndtrung-hub",
+      };
+
+      const eRepoEl = document.getElementById("short-repos");
+      const eSkillEl = document.getElementById("skills");
+      const eConnect = document.getElementById("connect");
+
+      async function fFetchRepos() {
+        const data = await octokit.request("GET /users/{username}/repos", {
+          username: "ndtrung-hub",
+        });
+
+        let result = data.data.sort((a, b) => {
+          return 0.5 - Math.random();
+        });
+        let aDataHtml = [];
+
+        for (let i = 0; i < 5 && i < result.length; i++)
+          aDataHtml.push(
+            `<div class="column badge content " id="repoid-${
+              result[i].name
+            }"  id="repo">
+                    <h3 class="badge href" onclick="window.open('${
+                      result[i].html_url
+                    }')">
+                      ${result[i].name}
+                    </h3>
+                    <div class="container inner row text" >
+                      ${
+                        result[i].homepage !== "" &&
+                        "<p class='text'>Live demo</p>" +
+                          "<em class='href'onclick=\"href=window.open('" +
+                          result[i].homepage +
+                          "')\">@" +
+                          result[i].full_name +
+                          " </em>"
+                      }
+                    </div>
+                  </div>`
+          );
+
+        eRepoEl.innerHTML =
+          result.length < 5
+            ? aDataHtml.join("")
+            : aDataHtml.join("") +
+              `<div class="container" id="more-repos" ><h4 class="badge href"  onclick="window.open('https://github.com/ndtrung-hub')">more repos</h4></div>`;
+      }
+
+      function fFetchSkills(object) {
+        const keys = Object.keys(object);
+
+        let aDataHtml = keys.map((item) => {
+          let temp = "";
+          if (item != "max") {
+            for (let i = 1; i <= object.max; i++) {
+              if (i <= object[item]) {
+                temp += "<i class='feather skilled' data-feather='circle'></i>";
+              } else {
+                temp += "<i class='feather' data-feather='circle'></i>";
+              }
+            }
+            return (
+              "<div class='row  content' id='skill-" +
+              item +
+              "'>" +
+              `<h3 class="" id="skill"> ${item}</h3>` +
+              temp +
+              "</div>"
+            );
+          }
+          return;
+        });
+        eSkillEl.innerHTML = aDataHtml.join("");
+        feather.replace();
+      }
+
+      function fFetchConnect(object) {
+        const keys = Object.keys(object);
+        let aDataHtml = keys.map((item) => {
+          let temp =
+            item == "email"
+              ? `<i class="feather" data-feather="${item}" onclick="mailto:${object[item]}"></i>`
+              : `<i  class="feather href"  data-feather="${item}" onclick="window.open('${object[item]}')"> </i>`;
+          return temp;
+        });
+        eConnect.innerHTML = aDataHtml.join("");
+        feather.replace();
+      }
+
+      //function calls
+      fFetchSkills(oSkillSet);
+      fFetchConnect(oConnect);
+      fFetchRepos();
+    </script>
+  </body>
+</html>

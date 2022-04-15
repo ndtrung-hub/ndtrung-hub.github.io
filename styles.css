@@ -1,0 +1,213 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: antiquewhite;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+#html {
+  height: 100%;
+  position: absolute;
+  left: 0;
+  width: 100%;
+}
+
+#root {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+}
+
+.container {
+  display: flex;
+  width: 100%;
+  align-self: center;
+  border-radius: 20px;
+  max-width: 1000px;
+  padding: 10px 0;
+}
+.row {
+  flex-direction: row !important;
+}
+.column {
+  flex-direction: column !important;
+}
+.outer {
+  margin-top: 10px;
+  margin-bottom: 20px;
+  width: 75%;
+  background-color: rgb(236, 216, 190);
+  padding: 0 20px;
+}
+
+#navbar {
+  height: 100px;
+  margin-top: 15px;
+  width: 75%;
+  background-color: rgb(236, 216, 190);
+}
+.badge {
+  transition-property: background-color;
+  transition-duration: 0.15s;
+  border-radius: 6px;
+  margin-left: 5px;
+  margin-right: 5px;
+  padding: 2px 10px 8px 7px;
+  width: fit-content;
+}
+
+#name-badge {
+  width: max-content;
+}
+
+.badge:hover,
+.badge:focus {
+  background-color: antiquewhite;
+}
+.href:hover,
+.href:focus {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+#page-nav {
+  justify-content: flex-end;
+}
+#page-name {
+  justify-content: flex-start;
+}
+
+img.circle {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+}
+
+#profile-container {
+  width: fit-content;
+}
+
+#profile-container,
+#main {
+  background-color: inherit;
+}
+
+#profile-picture {
+  background-color: bisque;
+  text-align: center;
+  margin-left: 10px;
+  margin-right: 20px;
+  padding: 10px;
+}
+
+#profile-name {
+  margin-bottom: 0;
+}
+
+#welcome-container {
+  align-self: flex-start;
+  justify-content: center;
+}
+div#main > div.container {
+  margin: 10px;
+  align-self: flex-start;
+}
+
+div#main > div > h2 {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+div#main {
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+}
+
+#skills-container {
+  max-width: 400px;
+  width: 25vw;
+  text-align: left;
+  justify-content: center;
+}
+
+div#skills > div.content,
+div#skills > div.content h3 {
+  width: fit-content;
+  background-color: inherit;
+  align-self: center;
+  margin: 0;
+}
+
+#skills {
+  margin-bottom: 20px;
+}
+
+#skill {
+  min-width: 80px;
+  padding: 5px 0 0 0;
+}
+
+.feather {
+  height: 30px !important;
+  width: 30px !important;
+  padding: 0px 0.1vmin;
+  margin: 5px 2px;
+}
+.feather.skilled {
+  fill: rgba(105, 190, 240, 0.877);
+}
+
+#short-repos-container,
+#footer-container {
+  width: fit-content;
+  padding: 0 20px;
+}
+
+.content {
+  margin-top: 0;
+  margin-right: 10px;
+  max-width: 30vw;
+  width: 400px;
+}
+
+div > div.content > div.row {
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+.text,
+h4.badge,
+h3.badge {
+  margin: 0 10px;
+  min-width: 80px;
+}
+
+em.href {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#more-repos {
+  justify-content: flex-end;
+  padding-right: 30px;
+  padding-left: 30px;
+  margin: 5px 10px 20px 10px;
+}
+
+#connect-container {
+  height: fit-content;
+  width: fit-content;
+}
+div#connect {
+  justify-content: center;
+}
