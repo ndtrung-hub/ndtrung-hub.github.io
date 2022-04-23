@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-  <header>
+  <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,minimum-scale=1"
+    />
     <title>Homepage - ndtrung-hub</title>
     <link rel="stylesheet" href="./styles.css" />
     <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
-  </header>
-  <body>
+  </head>
+  <body onresize="fResponsiveNavBar()">
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root">
       <div class="container row outer" id="navbar">
@@ -39,6 +42,11 @@
             connect
           </h2>
         </div>
+        <svg class="page-nav-button">
+          <rect class="page-nav-button-line" id="top"></rect>
+          <rect class="page-nav-button-line" id="mid"></rect>
+          <rect class="page-nav-button-line" id="bottom"></rect>
+        </svg>
       </div>
       <div class="container row outer" id="profile-container">
         <img
@@ -65,6 +73,8 @@
           <h2 class="container" id="short-repos-tag">repos</h2>
           <div class="container column" id="short-repos"></div>
         </div>
+      </div>
+      <div class="container row outer" id="footer">
         <div class="container column outer" id="connect-container">
           <h2 class="container" id="connect-tag">find me at</h2>
           <div class="container row" id="connect"></div>
@@ -72,7 +82,7 @@
       </div>
     </div>
 
-    <script type="module">
+    <script type="text/javascript">
       const oSkillSet = {
         "c/c++": 1,
         "html/css": 1,
@@ -107,13 +117,17 @@
           let aDataHtml = [];
           for (let i = 0; i < 5 && i < result.length; i++)
             aDataHtml.push(
-              `<div class="column badge content " id="repoid-${
+              `<div class="column badge content " id="repo-id-${
                 result[i].name
               }"  id="repo">
                     <h3 class="badge href" onclick="window.open('${
                       result[i].html_url
                     }')">
-                      ${result[i].name}
+                      ${
+                        result[i].name == "ndtrung-hub.github.io"
+                          ? "ndtrung-hub.github.io"
+                          : result[i].name
+                      }
                     </h3>
                     <div class="container inner row text" >
                       ${
@@ -178,9 +192,29 @@
         feather.replace();
       }
 
+      function fResponsiveNavBar() {
+        let width = screen.width;
+        const eNavBar = document.getElementById("navbar");
+        const ePageNav = document.getElementById("page-nav");
+        const eNavButton = document.createElement("svg");
+        eNavButton.classList.add("page-nav-button");
+
+        if (width < 730) {
+          ePageNav.classList.add("page-nav-dismissible-hidden");
+          eNavButton.addEventListener("click", () => {
+            if (ePageNav.classList.contains("page-nav-dismissible-shown")) {
+              ePageNav.classList.replace("page-nav-dismissible-hidden");
+            } else ePageNav.classList.replace("page-nav-dismissible-shown");
+          });
+        } else {
+          ePageNav.classList.remove("page-nav-dismissible-hidden");
+        }
+      }
+
       //function calls
       fFetchSkills(oSkillSet);
       fFetchConnect(oConnect);
+      fResponsiveNavBar();
     </script>
   </body>
 </html>
