@@ -290,7 +290,6 @@
 
             //floating header
             Array.from(eRoot.children).map((item, index) => {
-              console.log(eRoot.children);
               if (index !== 0) {
                 item.classList.add("padding-content");
               }
@@ -303,11 +302,13 @@
             if (document.getElementById("page-nav-button")) {
               document.getElementById("page-nav-button").remove();
             }
-            Array.from(eRoot.children).map((item, index) => {
-              if (item.classList.contains("padding-content")) {
-                item.classList.remove("padding-content");
+            Array.from(document.getElementById("root").children).map(
+              (item, index) => {
+                if (item.classList.contains("padding-content")) {
+                  item.classList.remove("padding-content");
+                }
               }
-            });
+            );
           }
         }
 
