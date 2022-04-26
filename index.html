@@ -10,74 +10,73 @@
     <link rel="stylesheet" href="./styles.css" />
     <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
   </head>
-  <body onresize="fResponsiveNavBar()">
+  <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root">
-      <div class="container row outer" id="navbar">
-        <div class="container row" id="page-name">
-          <h1 class="badge href" id="name-badge" onclick="location.href='';">
-            ndtrung-hub
-          </h1>
-        </div>
-        <div class="container row" id="page-nav">
-          <h2
-            class="badge href"
-            id="project-badge"
-            onclick="location.href='#short-repos';"
-          >
-            repos
-          </h2>
-          <h2
-            class="badge href"
-            id="about-badge"
-            onclick="location.href='#profile-container';"
-          >
-            about
-          </h2>
-          <h2
-            class="badge href"
-            id="connect-badge"
-            onclick="location.href='#connect-container';"
-          >
-            connect
-          </h2>
-        </div>
-        <svg class="page-nav-button">
-          <rect class="page-nav-button-line" id="top"></rect>
-          <rect class="page-nav-button-line" id="mid"></rect>
-          <rect class="page-nav-button-line" id="bottom"></rect>
-        </svg>
-      </div>
-      <div class="container row outer" id="profile-container">
-        <img
-          class="circle"
-          id="profile-picture"
-          src="./resources/profile.JPG"
-          alt="Profile picture"
-        />
-        <div class="container column" id="welcome-container">
-          <h1 id="profile-name">Nguyen Duc Trung</h1>
-          <p id="welcome-section">
-            HCMC, VN <br />
-            Amateur sessional cajonist <br />
-            BME undergraduate enthusiastic in CS-EE projects <br />
-          </p>
+      <div id="header">
+        <div class="container row outer" id="navbar">
+          <div class="container row" id="page-name">
+            <h1 class="badge href" id="name-badge" onclick="location.href='';">
+              ndtrung-hub
+            </h1>
+          </div>
+          <div class="container row" id="page-nav">
+            <h2
+              class="badge href"
+              id="project-badge"
+              onclick="fScrollOnClick('short-repos-container');"
+            >
+              repos
+            </h2>
+            <h2
+              class="badge href"
+              id="about-badge"
+              onclick="fScrollOnClick('profile-container');"
+            >
+              about
+            </h2>
+            <h2
+              class="badge href"
+              id="connect-badge"
+              onclick="fScrollOnClick('connect-container');"
+            >
+              connect
+            </h2>
+          </div>
         </div>
       </div>
-      <div class="container row outer" id="main">
-        <div class="container column outer" id="skills-container">
-          <h2 class="container" id="skills-tag">skills</h2>
-          <div class="container column" id="skills"></div>
+      <div id="content">
+        <div class="container row outer" id="profile-container">
+          <img
+            class="circle"
+            id="profile-picture"
+            src="./resources/profile.JPG"
+            alt="Profile picture"
+          />
+          <div class="container column" id="welcome-container">
+            <h1 id="profile-name">Nguyen Duc Trung</h1>
+            <p id="welcome-section">
+              HCMC, VN <br />
+              Amateur sessional cajonist <br />
+              BME undergraduate enthusiastic in CS-EE projects <br />
+            </p>
+          </div>
         </div>
-        <div class="container column outer" id="short-repos-container">
-          <h2 class="container" id="short-repos-tag">repos</h2>
-          <div class="container column" id="short-repos"></div>
+        <div class="container row outer" id="main">
+          <div class="container column outer" id="skills-container">
+            <h2 class="container" id="skills-tag">skills</h2>
+            <div class="container column" id="skills"></div>
+          </div>
+          <div class="container column outer" id="short-repos-container">
+            <h2 class="container" id="short-repos-tag">repos</h2>
+            <div class="container column" id="short-repos"></div>
+          </div>
         </div>
-      </div>
-      <div class="container row outer" id="footer">
-        <div class="container column outer" id="connect-container">
-          <h2 class="container" id="connect-tag">find me at</h2>
-          <div class="container row" id="connect"></div>
+        <div class="container row outer" id="footer">
+          <div class="container column outer" id="connect-container">
+            <h2 class="container" id="connect-tag">find me at</h2>
+            <div class="container row" id="connect"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -103,23 +102,28 @@
       const eSkillEl = document.getElementById("skills");
       const eConnect = document.getElementById("connect");
 
-      fetch("https://api.github.com/users/ndtrung-hub/repos", {
-        method: "GET",
-        header: {
-          authorization: "token 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",
-        },
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          let result = data.sort((a, b) => {
-            return 0.5 - Math.random();
-          });
-          let aDataHtml = [];
-          for (let i = 0; i < 5 && i < result.length; i++)
-            aDataHtml.push(
-              `<div class="column badge content " id="repo-id-${
-                result[i].name
-              }"  id="repo">
+      function fScrollOnClick(target) {
+        document.getElementById(target).scrollIntoView({ behavior: "smooth" });
+      }
+
+      function fFetchRepos() {
+        fetch("https://api.github.com/users/ndtrung-hub/repos", {
+          method: "GET",
+          header: {
+            authorization: "token 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",
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            let result = data.sort((a, b) => {
+              return 0.5 - Math.random();
+            });
+            let aDataHtml = [];
+            for (let i = 0; i < 5 && i < result.length; i++)
+              aDataHtml.push(
+                `<div class="column badge content " id="repo-id-${
+                  result[i].name
+                }"  id="repo">
                     <h3 class="badge href" onclick="window.open('${
                       result[i].html_url
                     }')">
@@ -141,15 +145,16 @@
                       }
                     </div>
                   </div>`
-            );
+              );
 
-          eRepoEl.innerHTML =
-            result.length < 5
-              ? aDataHtml.join("")
-              : aDataHtml.join("") +
-                `<div class="container" id="more-repos" ><h4 class="badge href"  onclick="window.open('https://github.com/ndtrung-hub')">more repos</h4></div>`;
-        })
-        .catch((error) => console.log(error));
+            eRepoEl.innerHTML =
+              result.length < 5
+                ? aDataHtml.join("")
+                : aDataHtml.join("") +
+                  `<div class="container" id="more-repos" ><h4 class="badge href"  onclick="window.open('https://github.com/ndtrung-hub')">more repos</h4></div>`;
+          })
+          .catch((error) => console.log(error));
+      }
 
       function fFetchSkills(object) {
         const keys = Object.keys(object);
@@ -193,27 +198,126 @@
       }
 
       function fResponsiveNavBar() {
-        let width = screen.width;
         const eNavBar = document.getElementById("navbar");
         const ePageNav = document.getElementById("page-nav");
-        const eNavButton = document.createElement("svg");
-        eNavButton.classList.add("page-nav-button");
 
-        if (width < 730) {
-          ePageNav.classList.add("page-nav-dismissible-hidden");
-          eNavButton.addEventListener("click", () => {
+        function fResponsive() {
+          if (window.innerWidth < 730) {
+            //initiate page-nav in responsive manner
+            if (!document.getElementById("page-nav-button")) {
+              const eNavButton = document.createElement("div");
+              eNavButton.innerHTML = `
+              <div class="page-nav-button-line" id="top"></div>
+              <div class="page-nav-button-line" id="mid"></div>
+              <div class="page-nav-button-line" id="bottom"></div>
+            `;
+              const aNavButtonClassList = ["page-nav-button"];
+              eNavButton.classList.add(...aNavButtonClassList);
+              eNavButton.setAttribute("id", "page-nav-button");
+              eNavBar.append(eNavButton);
+              ePageNav.classList.add("page-nav-dismissible-hidden");
+            }
+
+            const eNavButton = document.getElementById("page-nav-button");
+            const eRoot = document.getElementById("root");
+            const eMasking = document.createElement("div");
+            const aHrefElements = document.getElementsByClassName("href");
+            const aLines = document.getElementsByClassName(
+              "page-nav-button-line"
+            );
+
+            //onclick navButton eventListener
+            eNavButton.addEventListener("click", () => {
+              if (ePageNav.classList.contains("page-nav-dismissible-shown")) {
+                fHiddenDismissiblePageNav();
+              } else {
+                fShownDismissiblePageNav();
+              }
+            });
+
+            //focusout navButton eventListener
+            Array.from(ePageNav.getElementsByClassName("badge href")).map(
+              (item) => {
+                item.addEventListener("click", () => {
+                  fHiddenDismissiblePageNav();
+                });
+              }
+            );
+
+            //masking cancelling
+            eMasking.addEventListener("click", () => {
+              fHiddenDismissiblePageNav();
+            });
+
+            //show page-nav
+            function fShownDismissiblePageNav() {
+              //page-nav show
+              ePageNav.classList.replace(
+                "page-nav-dismissible-hidden",
+                "page-nav-dismissible-shown"
+              );
+
+              //masking show
+              eMasking.style.height = eRoot.offsetHeight + "px";
+              eMasking.setAttribute("id", "masking");
+              eNavBar.prepend(eMasking);
+
+              //nav-button from === to x
+              aLines[0].style.cssText +=
+                "transform-origin: top left ; transform: rotate(45deg); width: 25px;";
+              aLines[1].style.cssText += "opacity: 0";
+              aLines[2].style.cssText +=
+                "transform-origin: bottom left; transform: rotate(-45deg); width: 25px; ";
+            }
+
+            function fHiddenDismissiblePageNav() {
+              //page-nav hidden
+              ePageNav.classList.replace(
+                "page-nav-dismissible-shown",
+                "page-nav-dismissible-hidden"
+              );
+
+              //masking remove
+              eMasking.remove();
+
+              //nav-button from x to ===
+              aLines[0].style.cssText +=
+                "transform-origin: top left ; transform: rotate(0deg); width: 30px;";
+              aLines[1].style.cssText += "opacity: 1";
+              aLines[2].style.cssText +=
+                "transform-origin: bottom left; transform: rotate(0deg); width: 30px; ";
+            }
+
+            //floating header
+            Array.from(eRoot.children).map((item, index) => {
+              console.log(eRoot.children);
+              if (index !== 0) {
+                item.classList.add("padding-content");
+              }
+            });
+          } else {
             if (ePageNav.classList.contains("page-nav-dismissible-shown")) {
-              ePageNav.classList.replace("page-nav-dismissible-hidden");
-            } else ePageNav.classList.replace("page-nav-dismissible-shown");
-          });
-        } else {
-          ePageNav.classList.remove("page-nav-dismissible-hidden");
+              ePageNav.classList.remove("page-nav-dismissible-shown");
+            } else ePageNav.classList.remove("page-nav-dismissible-hidden");
+
+            if (document.getElementById("page-nav-button")) {
+              document.getElementById("page-nav-button").remove();
+            }
+            Array.from(eRoot.children).map((item, index) => {
+              if (item.classList.contains("padding-content")) {
+                item.classList.remove("padding-content");
+              }
+            });
+          }
         }
+
+        window.addEventListener("load", fResponsive());
       }
 
       //function calls
       fFetchSkills(oSkillSet);
       fFetchConnect(oConnect);
+      fFetchRepos();
       fResponsiveNavBar();
     </script>
   </body>
