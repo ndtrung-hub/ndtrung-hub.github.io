@@ -6,7 +6,7 @@
       name="viewport"
       content="width=device-width,initial-scale=1,minimum-scale=1"
     />
-    <title>Homepage - ndtrung-hub</title>
+    <title>ndtrung-hub</title>
     <link rel="stylesheet" href="./styles.css" />
     <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
   </head>
@@ -201,6 +201,21 @@
         const eNavBar = document.getElementById("navbar");
         const ePageNav = document.getElementById("page-nav");
 
+        if (ePageNav.classList.contains("page-nav-dismissible-shown")) {
+          ePageNav.classList.remove("page-nav-dismissible-shown");
+        } else ePageNav.classList.remove("page-nav-dismissible-hidden");
+
+        if (document.getElementById("page-nav-button")) {
+          document.getElementById("page-nav-button").remove();
+        }
+        Array.from(document.getElementById("root").children).map(
+          (item, index) => {
+            if (item.classList.contains("padding-content")) {
+              item.classList.remove("padding-content");
+            }
+          }
+        );
+
         function fResponsive() {
           if (window.innerWidth < 730) {
             //initiate page-nav in responsive manner
@@ -218,20 +233,32 @@
               ePageNav.classList.add("page-nav-dismissible-hidden");
             }
 
-            const eNavButton = document.getElementById("page-nav-button");
+            if (document.getElementById("masking")) {
+              Array.from(document.querySelectorAll("masking")).forEach(
+                (item) => {
+                  if (item) {
+                    item.remove();
+                  }
+                }
+              );
+            }
+
             const eRoot = document.getElementById("root");
             const eMasking = document.createElement("div");
             const aHrefElements = document.getElementsByClassName("href");
             const aLines = document.getElementsByClassName(
               "page-nav-button-line"
             );
+            const eNavButton = document.getElementById("page-nav-button");
 
             //onclick navButton eventListener
             eNavButton.addEventListener("click", () => {
               if (ePageNav.classList.contains("page-nav-dismissible-shown")) {
                 fHiddenDismissiblePageNav();
+                console.log("hello3");
               } else {
                 fShownDismissiblePageNav();
+                console.log("hello2");
               }
             });
 
@@ -295,24 +322,10 @@
               }
             });
           } else {
-            if (ePageNav.classList.contains("page-nav-dismissible-shown")) {
-              ePageNav.classList.remove("page-nav-dismissible-shown");
-            } else ePageNav.classList.remove("page-nav-dismissible-hidden");
-
-            if (document.getElementById("page-nav-button")) {
-              document.getElementById("page-nav-button").remove();
-            }
-            Array.from(document.getElementById("root").children).map(
-              (item, index) => {
-                if (item.classList.contains("padding-content")) {
-                  item.classList.remove("padding-content");
-                }
-              }
-            );
           }
         }
 
-        window.addEventListener("load", fResponsive());
+        window.addEventListener("load", (e) => fResponsive(e));
       }
 
       //function calls
